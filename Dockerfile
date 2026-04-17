@@ -1,16 +1,13 @@
-FROM php:8.2-apache
+FROM php:8.2-cli-alpine
 
-# Set working directory
-WORKDIR /var/www/html
+# Use a lightweight PHP runtime for a simple app
+WORKDIR /app
 
 # Copy application files
 COPY . .
 
-# Fix permissions - ensure www-data owns the files
-RUN chown -R www-data:www-data /var/www/html
+# Expose the built-in PHP server port
+EXPOSE 8081
 
-# Expose port 80
-EXPOSE 80
-
-# Start Apache in foreground
-CMD ["apache2-foreground"]
+# Run the built-in PHP development server
+CMD ["php", "-S", "0.0.0.0:8081", "-t", "/app"]
